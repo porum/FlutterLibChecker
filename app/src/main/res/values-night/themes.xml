@@ -1,0 +1,12 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+  <!-- Base application theme. -->
+  <style name="Base.Theme.FlutterLibChecker" parent="Theme.Material3.DayNight.NoActionBar">
+    <!-- Customize your dark theme here. -->
+    <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+    <item name="colorPrimary">@color/colorPrimaryDark</item>
+    <item name="colorOnPrimary">@color/white</item>
+
+    <item name="colorSurface">@color/colorPrimaryDark</item>
+    <item name="colorOnSurface">@color/white</item>
+  </style>
+</resources>

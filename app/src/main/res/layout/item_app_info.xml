@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:app="http://schemas.android.com/apk/res-auto"
+  xmlns:tools="http://schemas.android.com/tools"
+  android:layout_width="match_parent"
+  android:layout_height="wrap_content"
+  app:contentPadding="8dp"
+  app:strokeWidth="0dp">
+
+  <androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <androidx.appcompat.widget.AppCompatImageView
+      android:id="@+id/appIcon"
+      android:layout_width="48dp"
+      android:layout_height="48dp"
+      android:src="@mipmap/ic_launcher"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintStart_toStartOf="parent"
+      app:layout_constraintTop_toTopOf="parent" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/appName"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="4dp"
+      android:textSize="16sp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toTopOf="@id/appId"
+      app:layout_constraintEnd_toStartOf="@id/barrier"
+      app:layout_constraintStart_toStartOf="@id/appId"
+      tools:text="APP NAME" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/appId"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginStart="8dp"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toStartOf="@id/barrier"
+      app:layout_constraintStart_toEndOf="@id/appIcon"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="com.xxxxxx.xxxxxccccccxxxx" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/version"
+      android:layout_width="0dp"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="4dp"
+      app:layout_constraintEnd_toStartOf="@id/barrier"
+      app:layout_constraintStart_toStartOf="@id/appId"
+      app:layout_constraintTop_toBottomOf="@id/appId"
+      tools:text="9.99.99(999999)" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/flutterVersion"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginBottom="4dp"
+      android:textStyle="bold"
+      app:layout_constraintBottom_toTopOf="@id/dartVersion"
+      app:layout_constraintEnd_toEndOf="parent"
+      tools:text="Flutter 3.7.12" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/dartVersion"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:layout_constraintBottom_toBottomOf="parent"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toTopOf="parent"
+      tools:text="Dart 2.19.6" />
+
+    <androidx.appcompat.widget.AppCompatTextView
+      android:id="@+id/channel"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      android:layout_marginTop="4dp"
+      app:layout_constraintEnd_toEndOf="parent"
+      app:layout_constraintTop_toBottomOf="@id/dartVersion"
+      tools:text="beta" />
+
+    <androidx.constraintlayout.widget.Barrier
+      android:id="@+id/barrier"
+      android:layout_width="wrap_content"
+      android:layout_height="wrap_content"
+      app:barrierDirection="start"
+      app:barrierMargin="-8dp"
+      app:constraint_referenced_ids="flutterVersion,dartVersion,channel" />
+
+  </androidx.constraintlayout.widget.ConstraintLayout>
+
+</com.google.android.material.card.MaterialCardView>
