@@ -35,8 +35,12 @@ class AppListActivity : BaseBindingActivity<ActivityAppListBinding>() {
         viewModel.uiState
           .onEach {
             when (it) {
-              is AppListActivityState.Loading -> {}
+              is AppListActivityState.Loading -> {
+                binding.loading.show()
+              }
+
               is AppListActivityState.Success -> {
+                binding.loading.hide()
                 binding.recycleView.adapter = AppInfoListAdapter(it.appInfoList)
               }
             }

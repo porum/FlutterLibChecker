@@ -38,8 +38,12 @@ class PackageListActivity : BaseBindingActivity<ActivityPackageListBinding>() {
         vm.getPackageList(intent.getStringExtra(EXTRA_PACKAGE_NAME)!!)
           .onEach {
             when (it) {
-              is PackageListActivityState.Loading -> {}
+              is PackageListActivityState.Loading -> {
+                binding.loading.show()
+              }
+
               is PackageListActivityState.Success -> {
+                binding.loading.hide()
                 binding.recycleView.adapter =
                   object : RecyclerView.Adapter<PackageItemViewHolder>() {
                     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =

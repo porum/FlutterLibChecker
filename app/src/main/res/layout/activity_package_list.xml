@@ -29,4 +29,11 @@
     tools:itemCount="10"
     tools:listitem="@layout/item_package_info" />
 
+  <androidx.core.widget.ContentLoadingProgressBar
+    android:id="@+id/loading"
+    style="@style/Base.Widget.AppCompat.ProgressBar"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_gravity="center" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
