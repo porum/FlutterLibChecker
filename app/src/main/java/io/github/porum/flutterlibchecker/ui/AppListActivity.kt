@@ -4,9 +4,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.viewModels
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dagger.hilt.android.AndroidEntryPoint
@@ -31,22 +29,18 @@ class AppListActivity : BaseBindingActivity<ActivityAppListBinding>() {
     binding.recycleView.addItemDecoration(SimpleItemDecoration(top = 4.dp))
 
     lifecycleScope.launch {
-      lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-        viewModel.uiState
-          .onEach {
-            when (it) {
-              is AppListActivityState.Loading -> {
-                binding.loading.show()
-              }
-
-              is AppListActivityState.Success -> {
-                binding.loading.hide()
-                binding.recycleView.adapter = AppInfoListAdapter(it.appInfoList)
-              }
-            }
+      viewModel.uiState.onEach {
+        when (it) {
+          is AppListActivityState.Loading -> {
+            binding.loading.show()
           }
-          .collect()
-      }
+
+          is AppListActivityState.Success -> {
+            binding.loading.hide()
+            binding.recycleView.adapter = AppInfoListAdapter(it.appInfoList)
+          }
+        }
+      }.collect()
     }
   }
 

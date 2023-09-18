@@ -8,9 +8,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
-import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
-import androidx.lifecycle.repeatOnLifecycle
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import dagger.hilt.android.AndroidEntryPoint
@@ -34,38 +32,34 @@ class PackageListActivity : BaseBindingActivity<ActivityPackageListBinding>() {
     binding.recycleView.addItemDecoration(SimpleItemDecoration(top = 4.dp))
 
     lifecycleScope.launch {
-      lifecycle.repeatOnLifecycle(Lifecycle.State.STARTED) {
-        vm.getPackageList(intent.getStringExtra(EXTRA_PACKAGE_NAME)!!)
-          .onEach {
-            when (it) {
-              is PackageListActivityState.Loading -> {
-                binding.loading.show()
-              }
-
-              is PackageListActivityState.Success -> {
-                binding.loading.hide()
-                binding.recycleView.adapter =
-                  object : RecyclerView.Adapter<PackageItemViewHolder>() {
-                    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
-                      PackageItemViewHolder(
-                        ItemPackageInfoBinding.inflate(
-                          LayoutInflater.from(parent.context),
-                          parent,
-                          false
-                        )
-                      )
-
-                    override fun getItemCount(): Int = it.packageList.size
-
-                    override fun onBindViewHolder(holder: PackageItemViewHolder, position: Int) {
-                      holder.bind(it.packageList.elementAt(position))
-                    }
-                  }
-              }
-            }
+      vm.getPackageList(intent.getStringExtra(EXTRA_PACKAGE_NAME)!!).onEach {
+        when (it) {
+          is PackageListActivityState.Loading -> {
+            binding.loading.show()
           }
-          .collect()
-      }
+
+          is PackageListActivityState.Success -> {
+            binding.loading.hide()
+            binding.recycleView.adapter =
+              object : RecyclerView.Adapter<PackageItemViewHolder>() {
+                override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) =
+                  PackageItemViewHolder(
+                    ItemPackageInfoBinding.inflate(
+                      LayoutInflater.from(parent.context),
+                      parent,
+                      false
+                    )
+                  )
+
+                override fun getItemCount(): Int = it.packageList.size
+
+                override fun onBindViewHolder(holder: PackageItemViewHolder, position: Int) {
+                  holder.bind(it.packageList.elementAt(position))
+                }
+              }
+          }
+        }
+      }.collect()
     }
   }
 
