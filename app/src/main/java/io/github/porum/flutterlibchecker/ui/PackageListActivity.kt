@@ -5,6 +5,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
+import android.view.MenuItem
 import android.view.ViewGroup
 import androidx.activity.viewModels
 import androidx.browser.customtabs.CustomTabsIntent
@@ -28,6 +29,9 @@ class PackageListActivity : BaseBindingActivity<ActivityPackageListBinding>() {
 
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
+    setSupportActionBar(binding.toolbar)
+    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+
     binding.toolbar.title = intent.getStringExtra(EXTRA_APP_NAME)
     binding.recycleView.addItemDecoration(SimpleItemDecoration(top = 4.dp))
 
@@ -61,6 +65,13 @@ class PackageListActivity : BaseBindingActivity<ActivityPackageListBinding>() {
         }
       }.collect()
     }
+  }
+
+  override fun onOptionsItemSelected(item: MenuItem): Boolean {
+    if (item.itemId == android.R.id.home) {
+      finish()
+    }
+    return true
   }
 
   companion object {
