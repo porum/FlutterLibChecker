@@ -11,6 +11,7 @@ import kotlinx.coroutines.flow.flowOn
 import okio.ByteString
 import okio.buffer
 import okio.source
+import java.io.File
 import java.io.InputStream
 import java.util.zip.ZipFile
 import javax.inject.Inject
@@ -24,12 +25,17 @@ class DataSource @Inject constructor(
     val flutterAppList = mutableListOf<AppInfo>()
     val packageInfoList = application.packageManager.getInstalledPackages(0)
     for (packageInfo in packageInfoList) {
-      ZipFile(packageInfo.applicationInfo.publicSourceDir).use { apkFile ->
-        apkFile.entries()
-          .asSequence()
-          .firstOrNull { it.isDirectory.not() && it.name.endsWith("libapp.so") }
-          ?.let { flutterAppList.add(getAppInfo(packageInfo, apkFile.getInputStream(it))) }
-      }
+      File(packageInfo.applicationInfo.publicSourceDir).parentFile
+        ?.listFiles { file -> file.name.endsWith(".apk") }
+        ?.map { ZipFile(it) }
+        ?.any { zipFile ->
+          zipFile.use { it ->
+            it.entries()
+              .asSequence()
+              .firstOrNull { it.isDirectory.not() && it.name.endsWith("libapp.so") }
+              ?.also { flutterAppList.add(getAppInfo(packageInfo, zipFile.getInputStream(it))) }
+          } != null
+        }
     }
 
     flutterAppList.sortBy { it.appName }
@@ -67,18 +73,20 @@ class DataSource @Inject constructor(
 
   fun getPackageList(applicationId: String) = flow {
     val packageList = sortedSetOf<String>()
-
-    ZipFile(
-      application.packageManager.getPackageInfo(
-        applicationId,
-        0
-      ).applicationInfo.publicSourceDir
-    ).use { apkFile ->
-      apkFile.entries()
-        .asSequence()
-        .firstOrNull { it.isDirectory.not() && it.name.endsWith("libapp.so") }
-        ?.let { packageList.addAll(getPackageList(apkFile.getInputStream(it))) }
-    }
+    File(application.packageManager.getPackageInfo(
+      applicationId,
+      0
+    ).applicationInfo.publicSourceDir).parentFile
+      ?.listFiles { file -> file.name.endsWith(".apk") }
+      ?.map { ZipFile(it) }
+      ?.any {
+        it.use { zipFile ->
+          it.entries()
+            .asSequence()
+            .firstOrNull { it.isDirectory.not() && it.name.endsWith("libapp.so") }
+            ?.also { packageList.addAll(getPackageList(zipFile.getInputStream(it))) }
+        } != null
+      }
 
     emit(packageList)
   }.flowOn(Dispatchers.IO)
