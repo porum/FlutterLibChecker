@@ -30,9 +30,11 @@ class PackageListActivity : BaseBindingActivity<ActivityPackageListBinding>() {
   override fun onCreate(savedInstanceState: Bundle?) {
     super.onCreate(savedInstanceState)
     setSupportActionBar(binding.toolbar)
-    supportActionBar?.setDisplayHomeAsUpEnabled(true)
+    supportActionBar?.apply {
+      setDisplayHomeAsUpEnabled(true)
+      title = intent.getStringExtra(EXTRA_APP_NAME)
+    }
 
-    binding.toolbar.title = intent.getStringExtra(EXTRA_APP_NAME)
     binding.recycleView.addItemDecoration(SimpleItemDecoration(top = 4.dp))
 
     lifecycleScope.launch {
