@@ -8,3 +8,8 @@
 .externalNativeBuild
 .cxx
 local.properties
+
+scripts/flutter
+scripts/enginehash.tmp
+scripts/enginehash.tmp.csv
+scripts/app-database.db

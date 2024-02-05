@@ -1,0 +1,43 @@
+name: Update db
+
+on:
+  schedule:
+    - cron: '10 1 * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Python
+        uses: actions/setup-python@v3
+        with:
+          python-version: '3.11'
+
+      - name: Install dependencies
+        run: |
+          pip3 install requests
+          pip3 install reflutter==0.7.8
+
+      - name: Generate database
+        run: |
+          cd ./scripts
+          python ./gen_enginehash.py
+          python ./gen_database.py
+          mv -f ./app-database.db ../app/src/main/assets/  
+
+      - name: Commit
+        run: |
+          git config user.name porum
+          git config user.email sunguobao12@gmail.com
+          git add .
+          git commit -m "github action: Update database"
+          git pull --rebase
+
+      - name: Push
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          
