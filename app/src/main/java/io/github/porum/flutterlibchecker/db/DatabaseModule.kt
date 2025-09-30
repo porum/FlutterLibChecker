@@ -7,6 +7,8 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.qualifiers.ApplicationContext
 import dagger.hilt.components.SingletonComponent
+import io.github.porum.flutterlibchecker.db.dao.AppInfoDao
+import io.github.porum.flutterlibchecker.db.dao.VersionDao
 import javax.inject.Singleton
 
 @Module
@@ -26,4 +28,14 @@ object DatabaseModule {
   )
     .createFromAsset("${DB_NAME}.db")
     .build()
+
+  @Provides
+  fun provideAppInfoDao(
+    db: AppDatabase,
+  ): AppInfoDao = db.appInfoDao()
+
+  @Provides
+  fun provideVersionDao(
+    db: AppDatabase,
+  ): VersionDao = db.versionDao()
 }

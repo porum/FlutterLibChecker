@@ -2,6 +2,7 @@ package io.github.porum.flutterlibchecker.db.model
 
 import androidx.room.Entity
 import androidx.room.PrimaryKey
+import java.io.Serializable
 
 @Entity
 data class AppInfo(
@@ -13,5 +14,5 @@ data class AppInfo(
   val flutterVersion: String,
   val dartVersion: String,
   val channel: String,
-  val packages: List<String>
-)
+  val packages: Set<String>
+) : Serializable

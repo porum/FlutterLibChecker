@@ -3,8 +3,7 @@
   xmlns:app="http://schemas.android.com/apk/res-auto"
   xmlns:tools="http://schemas.android.com/tools"
   android:layout_width="match_parent"
-  android:layout_height="match_parent"
-  tools:context=".ui.PackageListActivity">
+  android:layout_height="match_parent">
 
   <com.google.android.material.appbar.AppBarLayout
     android:layout_width="match_parent"
@@ -28,12 +27,5 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
     tools:itemCount="10"
     tools:listitem="@layout/item_package_info" />
-
-  <androidx.core.widget.ContentLoadingProgressBar
-    android:id="@+id/loading"
-    style="@style/Base.Widget.AppCompat.ProgressBar"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:layout_gravity="center" />
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>
